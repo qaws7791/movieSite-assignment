@@ -5,9 +5,171 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/4063cf8443.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="swiper.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        box-sizing: border-box;
+      }
+      ul,
+      ol {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+      }
+      html {
+        font-size: 62.5%;
+      }
+      body {
+        width: 100vw;
+        font-size: 1.6rem;
+      }
+      .header {
+        background-color: rgb(178, 225, 225);
+      }
+      /* nav */
+      .nav {
+        background-color: darkseagreen;
+        width: 240px;
+        height: 100vh;
+        flex-shrink: 0;
+        padding: 1rem;
+      }
+
+      .nav__title {
+        font-size: 2.4rem;
+        font-weight: bold;
+      }
+
+      .navItem {
+        display: flex;
+        padding: 1.6rem 1rem;
+        gap: 1rem;
+        align-items: center;
+        border-radius: 10px;
+      }
+      .navItem:hover {
+        background-color: #d5d5d561;
+      }
+      .navItem__icon {
+        font-size: 2.4rem;
+      }
+      .navItem__name {
+        font-size: 2rem;
+      }
+      .nav.hide {
+        display: none;
+      }
+      .content {
+        width: 100%;
+        border: 1px solid indianred;
+      }
+      .main {
+        width: calc(100% - 240px);
+        flex: 1;
+        flex-shrink: 1;
+        transition: all 1s ease-in-out;
+      }
+      .header-space {
+        margin-top: 40px;
+      }
+      .header_wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .container {
+        display: flex;
+      }
+
+      .banner {
+        width: 100%;
+        height: 500px;
+      }
+      .section {
+        height: 300px;
+      }
+    </style>
   </head>
   <body>
-    <div id="container"></div>
+    <div class="container">
+      <nav class="nav">
+        <p class="nav__title">menus</p>
+        <ul>
+          <li>
+            <a href="/" class="navItem">
+              <div>
+                <i
+                  class="fa-solid fa-house navItem__icon"
+                  style="color: #ffffff"
+                ></i>
+              </div>
+              <div class="navItem__name">Home</div>
+            </a>
+          </li>
+          <li>
+            <a href="#/movie" class="navItem">
+              <div>
+                <i
+                  class="fa-solid fa-magnifying-glass navItem__icon"
+                  style="color: #bdbdbd"
+                ></i>
+              </div>
+              <div class="navItem__name">Movies</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="main">
+        <header class="header">
+          <div class="header_wrapper">
+            <div>
+              <div>
+                <button class="navToggleButton">
+                  <i class="fa-solid fa-arrow-left" style="color: #dedede"></i>
+                </button>
+              </div>
+              <h1>Movies</h1>
+            </div>
+            <div>
+              <input type="text" name="searchBar" id="searchBar" />
+              <button>Search</button>
+            </div>
+          </div>
+        </header>
+        <div></div>
+        <main class="content" id="content"></main>
+      </div>
+    </div>
+    <script>
+      $navToggleButton = document.querySelector(".navToggleButton");
+      $nav = document.querySelector(".nav");
+      function setNavToggle(e) {
+        if ($nav.classList.contains("hide")) {
+          $nav.classList.remove("hide");
+          this.innerHTML =
+            '<i class="fa-solid fa-arrow-left" style="color: #dedede"></i>';
+        } else {
+          $nav.classList.add("hide");
+
+          this.innerHTML =
+            '<i class="fa-solid fa-bars" style="color: #c2c2c2;"></i>';
+        }
+      }
+      $navToggleButton.addEventListener("click", setNavToggle);
+    </script>
     <script src="./app.js"></script>
   </body>
 </html>
