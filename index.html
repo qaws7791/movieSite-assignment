@@ -14,120 +14,31 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
     />
-    <link rel="stylesheet" href="swiper.css" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        line-height: 1.5;
-        box-sizing: border-box;
-      }
-      ul,
-      ol {
-        list-style: none;
-      }
-      a {
-        text-decoration: none;
-      }
-      html {
-        font-size: 62.5%;
-      }
-      body {
-        width: 100vw;
-        font-size: 1.6rem;
-      }
-      .header {
-        background-color: rgb(178, 225, 225);
-      }
-      /* nav */
-      .nav {
-        background-color: darkseagreen;
-        width: 240px;
-        height: 100vh;
-        flex-shrink: 0;
-        padding: 1rem;
-      }
-
-      .nav__title {
-        font-size: 2.4rem;
-        font-weight: bold;
-      }
-
-      .navItem {
-        display: flex;
-        padding: 1.6rem 1rem;
-        gap: 1rem;
-        align-items: center;
-        border-radius: 10px;
-      }
-      .navItem:hover {
-        background-color: #d5d5d561;
-      }
-      .navItem__icon {
-        font-size: 2.4rem;
-      }
-      .navItem__name {
-        font-size: 2rem;
-      }
-      .nav.hide {
-        display: none;
-      }
-      .content {
-        width: 100%;
-        border: 1px solid indianred;
-      }
-      .main {
-        width: calc(100% - 240px);
-        flex: 1;
-        flex-shrink: 1;
-        transition: all 1s ease-in-out;
-      }
-      .header-space {
-        margin-top: 40px;
-      }
-      .header_wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .container {
-        display: flex;
-      }
-
-      .banner {
-        width: 100%;
-        height: 500px;
-      }
-      .section {
-        height: 300px;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/swiper.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
   </head>
   <body>
     <div class="container">
       <nav class="nav">
+        <button class="navButton navCloseButton">
+          <i class="fa-solid fa-arrow-left" style="color: #dedede"></i>
+        </button>
         <p class="nav__title">menus</p>
         <ul>
           <li>
             <a href="/" class="navItem">
               <div>
-                <i
-                  class="fa-solid fa-house navItem__icon"
-                  style="color: #ffffff"
-                ></i>
+                <i class="fa-solid fa-house navItem__icon"></i>
               </div>
-              <div class="navItem__name">Home</div>
+              <div class="navItem__name">홈</div>
             </a>
           </li>
           <li>
-            <a href="#/movie" class="navItem">
+            <a href="#/discover" class="navItem">
               <div>
-                <i
-                  class="fa-solid fa-magnifying-glass navItem__icon"
-                  style="color: #bdbdbd"
-                ></i>
+                <i class="fa-solid fa-magnifying-glass navItem__icon"></i>
               </div>
-              <div class="navItem__name">Movies</div>
+              <div class="navItem__name">찾기</div>
             </a>
           </li>
         </ul>
@@ -135,17 +46,17 @@
       <div class="main">
         <header class="header">
           <div class="header_wrapper">
-            <div>
+            <div class="header__title">
               <div>
-                <button class="navToggleButton">
-                  <i class="fa-solid fa-arrow-left" style="color: #dedede"></i>
+                <button class="navButton navOpenButton">
+                  <i class="fa-solid fa-bars" style="color: #dedede"></i>
                 </button>
               </div>
               <h1>Movies</h1>
             </div>
             <div>
-              <input type="text" name="searchBar" id="searchBar" />
-              <button>Search</button>
+              <input type="text" name="inputSearch" id="inputSearch" />
+              <button onclick="handleSearchSubmit()">Search</button>
             </div>
           </div>
         </header>
@@ -154,22 +65,27 @@
       </div>
     </div>
     <script>
-      $navToggleButton = document.querySelector(".navToggleButton");
+      $navCloseButtons = document.querySelector(".navCloseButton");
+      $navOpenButtons = document.querySelector(".navOpenButton");
+      $inputSearch = document.querySelector("#inputSearch");
       $nav = document.querySelector(".nav");
-      function setNavToggle(e) {
-        if ($nav.classList.contains("hide")) {
-          $nav.classList.remove("hide");
-          this.innerHTML =
-            '<i class="fa-solid fa-arrow-left" style="color: #dedede"></i>';
-        } else {
-          $nav.classList.add("hide");
+      $navSpace = document.querySelector(".navSpace");
 
-          this.innerHTML =
-            '<i class="fa-solid fa-bars" style="color: #c2c2c2;"></i>';
-        }
+      $navOpenButtons.addEventListener("click", openNav);
+      $navCloseButtons.addEventListener("click", closeNav);
+
+      function openNav() {
+        $nav.classList.remove("hide");
       }
-      $navToggleButton.addEventListener("click", setNavToggle);
+      function closeNav() {
+        $nav.classList.add("hide");
+      }
+
+      function handleSearchSubmit() {
+        console.log($inputSearch.value);
+        window.location.href = `/#/search/${$inputSearch.value}`;
+      }
     </script>
-    <script src="./app.js"></script>
+    <script src="./scripts/app.js" type="module"></script>
   </body>
 </html>
