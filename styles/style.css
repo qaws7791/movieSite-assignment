@@ -51,6 +51,19 @@ body {
   background-color: var(--bg-primary-color);
 }
 
+.iconButton {
+  margin-right: 12px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 2.4rem;
+  background: none;
+}
+.iconButton:hover{
+  background-color: #ffffff1a;
+}
+
 .nav__title {
   font-size: 2.4rem;
   font-weight: bold;
@@ -96,20 +109,42 @@ body {
   display: flex;
   align-items: center;
 }
-.navButton {
-  margin-right: 12px;
-  height: 40px;
-  width: 40px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 2.4rem;
+
+.searchBar {
+  background-color: var(--bg-primary-color);
 }
+.searchBar.hide {
+  display: none;
+}
+.searchOpenButton,
+.searchCloseButton {
+  display: none;
+}
+@media (max-width: 600px) {
+  .searchBar {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .searchButton {
+    display: inline-block;
+  }
+  .searchOpenButton,
+  .searchCloseButton {
+    display: inline-block;
+  }
+}
+
 
 .content {
   margin-top: var(--header-height);
   width: 100%;
   border: 1px solid indianred;
-  padding: 2rem;
 }
 .main {
   width: calc(100% - var(--nav-width));
@@ -118,7 +153,9 @@ body {
   transition: all 1s ease-in-out;
 }
 
-
+.homePage {
+  padding: 2rem;
+}
 
 .banner {
   width: 100%;
@@ -136,5 +173,39 @@ body {
   display: inline-block;
   padding: 0.4rem 1.6rem;
   border-radius: 10px;
+}
+.genreList__item:hover {
+  background-color: #ffffff2e;
+}
 
+.movieDetail__bg {
+  background-image:  linear-gradient(to bottom, rgb(255 255 255 / 0%), var(--bg-primary-color)),
+  var(--backdrop-image);
+  width: 100%;
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+.movieDetail__content {
+  width: 100%;
+  position: relative;
+  padding: 0 5%;
+  top: 5%;
+}
+.movieDetail__poster {
+  width: 220px;
+}
+
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-items: center;
+  row-gap: 24px;
+}
+
+.movieList__image {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
 }

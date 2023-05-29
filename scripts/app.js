@@ -11,7 +11,7 @@ jsonData.genres.forEach(({ id, name }) => (genres[id] = name));
 console.log(genres);
 
 //////////////////////////////////////////////////////////////////
-async function home() {
+async function homePage() {
   const movies = await fetchPopularMovies();
   const promises = [];
   for (const key in genres) {
@@ -36,19 +36,21 @@ async function home() {
     )
     .join("");
   $content.innerHTML = `
-  <h2>인기있는 영화들</h2>
-  <div class="banner">
-    <div class="swiper bannerSwiper">
-      <div class="swiper-wrapper">
-        ${bannerSlides}
+  <div class='homePage'>
+    <h2>인기있는 영화들</h2>
+    <div class="banner">
+      <div class="swiper bannerSwiper">
+        <div class="swiper-wrapper">
+          ${bannerSlides}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
     </div>
+        ${Object.values(genres)
+          .map((x, i) => `<h2>${x} 영화</h2>` + sliders[i])
+          .join("")}
   </div>
-      ${Object.values(genres)
-        .map((x, i) => `<h2>${x} 영화</h2>` + sliders[i])
-        .join("")}
   `;
   const bannerSwiper = new Swiper(".bannerSwiper", {
     slidesPerView: 1,
@@ -60,7 +62,7 @@ async function home() {
     },
     loop: true,
     breakpoints: {
-      1250: {
+      1600: {
         slidesPerView: 2,
         centeredSlides: true,
         spaceBetween: 30,
@@ -72,9 +74,9 @@ async function home() {
 
 function generateMovieSwiper(i) {
   return new Swiper(`.movieSwiper-${i}`, {
-    slidesPerView: 1,
+    slidesPerView: 2,
     centeredSlides: false,
-    spaceBetween: 30,
+    spaceBetween: 20,
     navigation: {
       nextEl: `.movieSwiper-button-next-${i}`,
       prevEl: `.movieSwiper-button-next-${i}`,
@@ -138,24 +140,69 @@ function createMovieSlider(movies, index) {
   `;
 }
 
-async function movie(id) {
+async function movieDetailPage(id) {
   const movieDetail = await fetchMovieDetail(id);
-  const { title, backdrop_path, overview, poster_path } = movieDetail;
+  const { title, backdrop_path, overview, poster_path, vote_average } =
+    movieDetail;
+  const rating = Number.parseInt(Number(vote_average) * 10);
   console.log(movieDetail);
   $content.innerHTML = `
-    <h1>${title}</h1>
-    <p>${overview}</p>
+  <div class='movieDetail'>
+  <div 
+    class='movieDetail__bg' 
+    style="--backdrop-image: url('https://image.tmdb.org/t/p/original${backdrop_path}');" 
+  >
+  <div class='movieDetail__content'>
+  <img class='movieDetail__poster' src='https://image.tmdb.org/t/p/original${poster_path}' alt='${title}'/>
+  <h1 class='movieDetail__title'>${title}</h1>
+  
+  <p class='movieDetail__vote'><i class="fa-regular fa-thumbs-up"></i> ${rating}%</p>
+  <p class='movieDetail__overview'>${overview}</p>
+
+</div>
+  </div>
+  </div>
   `;
 }
 
-async function search(query) {
+async function searchPage(query) {
+  let pageIndex = 1;
   const movies = await fetchSearchMovies(query);
-  const movieElements = movies
-    .map((movie) => `<li>${movie.title}</li>`)
+  const moviesElements = movies
+    .map(
+      (movie) =>
+        `<li><a><img class='movieList__image' width='200px' src='https://image.tmdb.org/t/p/w342${movie.poster_path}' alt='${movie.title}'></a></li>`
+    )
     .join("");
-  $content.innerHTML = `<h1>Search: ${decodeURI(
-    query
-  )}</h1><ul>${movieElements}</ul>`;
+
+  async function loadMoreMovies(e) {
+    pageIndex += 1;
+    console.log(pageIndex);
+    const moreMovies = await fetchSearchMovies(query, pageIndex);
+    if (moreMovies.length === 0) e.target.parentNode.removeChild(e.target);
+    const moreMoviesElements = moreMovies
+      .map(
+        (movie) =>
+          `<li><a><img class='movieList__image' width='200px' src='https://image.tmdb.org/t/p/w342${movie.poster_path}' alt='${movie.title}'></a></li>`
+      )
+      .join("");
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = moreMoviesElements;
+    while (tempDiv.firstChild) {
+      document.querySelector(".movieList").appendChild(tempDiv.firstChild);
+    }
+  }
+
+  const moreButton = document.createElement("button");
+  moreButton.innerText = "read more";
+  moreButton.addEventListener("click", loadMoreMovies);
+
+  $content.innerHTML = `
+  <h1>Search: ${decodeURI(query)}</h1>
+  <div><ul class='movieList'>${moviesElements}</ul></div>
+  `;
+
+  $content.appendChild(moreButton);
 }
 
 function notFoundPage() {
@@ -163,7 +210,42 @@ function notFoundPage() {
 }
 
 async function genrePage(genre) {
-  $content.innerHTML = `<h1>genre: ${genres[genre]}</h1>`;
+  let pageIndex = 1;
+  const movies = await fetchGenreMovies(genre);
+  const moviesElements = movies
+    .map(
+      (movie) =>
+        `<li><a><img class='movieList__image' width='200px' src='https://image.tmdb.org/t/p/w342${movie.poster_path}' alt='${movie.title}'></a></li>`
+    )
+    .join("");
+
+  async function loadMoreMovies() {
+    pageIndex += 1;
+    console.log(pageIndex);
+    const moreMovies = await fetchGenreMovies(genre, pageIndex);
+    const moreMoviesElements = moreMovies
+      .map(
+        (movie) =>
+          `<li><a><img class='movieList__image' width='200px' src='https://image.tmdb.org/t/p/w342${movie.poster_path}' alt='${movie.title}'></a></li>`
+      )
+      .join("");
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = moreMoviesElements;
+    while (tempDiv.firstChild) {
+      document.querySelector(".movieList").appendChild(tempDiv.firstChild);
+    }
+  }
+
+  const moreButton = document.createElement("button");
+  moreButton.innerText = "read more";
+  moreButton.addEventListener("click", loadMoreMovies);
+
+  $content.innerHTML = `
+  <h1>genre: ${genres[genre]}</h1>
+  <div><ul class='movieList'>${moviesElements}</ul></div>
+  `;
+
+  $content.appendChild(moreButton);
 }
 
 async function discoverPage() {
@@ -178,11 +260,11 @@ function router() {
   console.log(path);
   console.log(window.location.pathname);
   if (path === "") {
-    home();
+    homePage();
   } else if (path.slice(0, 7) === "#/movie") {
-    movie(path.substr(8));
+    movieDetailPage(path.substr(8));
   } else if (path.slice(0, 8) === "#/search") {
-    search(path.substr(9));
+    searchPage(path.substr(9));
   } else if (path.slice(0, 10) === "#/discover") {
     discoverPage();
   } else if (path.slice(0, 7) === "#/genre") {

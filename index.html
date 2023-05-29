@@ -19,8 +19,8 @@
   </head>
   <body>
     <div class="container">
-      <nav class="nav">
-        <button class="navButton navCloseButton">
+      <nav class="nav hide">
+        <button class="iconButton navCloseButton">
           <i class="fa-solid fa-arrow-left" style="color: #dedede"></i>
         </button>
         <p class="nav__title">menus</p>
@@ -48,16 +48,30 @@
           <div class="header_wrapper">
             <div class="header__title">
               <div>
-                <button class="navButton navOpenButton">
+                <button class="iconButton navOpenButton">
                   <i class="fa-solid fa-bars" style="color: #dedede"></i>
                 </button>
               </div>
-              <h1>Movies</h1>
+              <a href="/">
+                <h1>Movies</h1>
+              </a>
             </div>
-            <div>
-              <input type="text" name="inputSearch" id="inputSearch" />
-              <button onclick="handleSearchSubmit()">Search</button>
+            <div class="searchBar hide">
+              <div>
+                <input type="text" name="inputSearch" id="inputSearch" />
+                <button onclick="handleSearchSubmit()">Search</button>
+              </div>
+
+              <button class="iconButton searchCloseButton">
+                <i class="fa-solid fa-xmark" style="color: #dedede"></i>
+              </button>
             </div>
+            <button class="iconButton searchOpenButton">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: #dedede"
+              ></i>
+            </button>
           </div>
         </header>
         <div></div>
@@ -70,9 +84,33 @@
       $inputSearch = document.querySelector("#inputSearch");
       $nav = document.querySelector(".nav");
       $navSpace = document.querySelector(".navSpace");
+      $navItems = document.querySelectorAll(".navItem");
+      $searchOpenButton = document.querySelector(".searchOpenButton");
+      $searchCloseButton = document.querySelector(".searchCloseButton");
+      $searchBar = document.querySelector(".searchBar");
 
+      window.addEventListener("resize", onResizeWindow);
       $navOpenButtons.addEventListener("click", openNav);
       $navCloseButtons.addEventListener("click", closeNav);
+      $searchOpenButton.addEventListener("click", openSearchBar);
+      $searchCloseButton.addEventListener("click", closeSearchBar);
+      $inputSearch.addEventListener("keyup", submitDetectEnter);
+
+      function onResizeWindow() {
+        if (window.innerWidth <= 600) {
+          closeSearchBar();
+        } else {
+          openSearchBar();
+        }
+      }
+
+      function openSearchBar() {
+        $searchBar.classList.remove("hide");
+      }
+
+      function closeSearchBar() {
+        $searchBar.classList.add("hide");
+      }
 
       function openNav() {
         $nav.classList.remove("hide");
@@ -80,10 +118,17 @@
       function closeNav() {
         $nav.classList.add("hide");
       }
+      $navItems.forEach((navItem) => {
+        navItem.addEventListener("click", closeNav);
+      });
 
       function handleSearchSubmit() {
         console.log($inputSearch.value);
         window.location.href = `/#/search/${$inputSearch.value}`;
+      }
+
+      function submitDetectEnter(e) {
+        if (e.keyCode === 13) handleSearchSubmit();
       }
     </script>
     <script src="./scripts/app.js" type="module"></script>
