@@ -1,4 +1,10 @@
 /* swiper */
+@media (max-width:600px) {
+  :root{
+    --swiper-navigation-size: 30px;
+  }
+}
+
 .swiper_wrapper {
   width: 100%;
   height: 500px;
@@ -11,8 +17,7 @@
 .swiper-slide {
   overflow: hidden;
   text-align: center;
-  font-size: 18px;
-  background: #fff;
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,4 +53,22 @@
 }
 .swiper-button-prev {
   left: 0;
+}
+
+.bannerSwiper .swiper-slide img {
+  opacity: 0.3;
+}
+
+@media (max-width: 600px) {
+  .bannerSwiper .swiper-slide img {
+    height: 400px;
+  }
+}
+
+.bannerSwiper .swiper-slide-active img {
+  opacity: 1;
+}
+
+.bannerSwiper .swiper-slide-active .bannerCard__title {
+  display: block;
 }

@@ -32,12 +32,15 @@ async function homePage() {
 
   $content.innerHTML = `
   <div class='homePage'>
-    <h2>인기있는 영화들</h2>
+    <h2 class='section__title'>인기있는 영화들</h2>
     <div class="banner">
           ${createBannerSliderElement(movies)}
+          <div></div>
     </div>
         ${Object.values(genres)
-          .map((x, i) => `<h2>${x} 영화</h2>` + sliders[i])
+          .map(
+            (x, i) => `<h2 class='section__title'>${x} 영화</h2>` + sliders[i]
+          )
           .join("")}
   </div>
   `;
@@ -51,20 +54,21 @@ async function movieDetailPage(id) {
     movieDetail;
   const rating = Number.parseInt(Number(vote_average) * 10);
   $content.innerHTML = `
-  <div class='movieDetail'>
-  <div 
-    class='movieDetail__bg' 
-    style="--backdrop-image: url('https://image.tmdb.org/t/p/original${backdrop_path}');" 
-  >
-  <div class='movieDetail__content'>
-  <img class='movieDetail__poster' src='https://image.tmdb.org/t/p/original${poster_path}' alt='${title}'/>
-  <h1 class='movieDetail__title'>${title}</h1>
-  
-  <p class='movieDetail__vote'><i class="fa-regular fa-thumbs-up"></i> ${rating}%</p>
-  <p class='movieDetail__overview'>${overview}</p>
-
-</div>
-  </div>
+  <div class='movieDetailPage'>
+    <div class='movieDetail'>
+    <div 
+      class='movieDetail__bg' 
+      style="--backdrop-image: url('https://image.tmdb.org/t/p/original${backdrop_path}');" 
+    >
+      <div class='movieDetail__content'>
+      <img class='movieDetail__poster' src='https://image.tmdb.org/t/p/original${poster_path}' alt='${title}'/>
+      <h1 class='movieDetail__title'>${title}</h1>
+      
+      <p class='movieDetail__vote'><i class="fa-regular fa-thumbs-up"></i> ${rating}%</p>
+      <p class='movieDetail__overview'>${overview}</p>
+      </div>
+    </div>
+    </div>
   </div>
   `;
 }
@@ -91,8 +95,10 @@ async function searchPage(query) {
   }
 
   $content.innerHTML = `
-  <h1>Search: ${decodeURI(query)}</h1>
-  <div><ul class='movieList'>${moviesElements}</ul></div>
+  <div class='searchPage'>
+    <h1>Search: ${decodeURI(query)}</h1>
+    <div><ul class='movieList'>${moviesElements}</ul></div>
+  </div>
   `;
 
   const options = {
@@ -118,7 +124,7 @@ async function searchPage(query) {
 }
 
 function notFoundPage() {
-  $content.innerHTML = `<h1>NotFound</h1>`;
+  $content.innerHTML = `<div class='notFoundPage'><h1>NotFound</h1></div>`;
 }
 
 async function genrePage(genre) {
@@ -143,8 +149,10 @@ async function genrePage(genre) {
   }
 
   $content.innerHTML = `
-  <h1>genre: ${genres[genre]}</h1>
-  <div><ul class='movieList'>${moviesElements}</ul></div>
+  <div class='genrePage'>
+    <h1>genre: ${genres[genre]}</h1>
+    <div><ul class='movieList'>${moviesElements}</ul></div>
+  </div>
   `;
 
   const options = {
@@ -174,7 +182,7 @@ async function discoverPage() {
   for (const genre in genres) {
     genreList += `<li ><a class='genreList__item' href='#/genre/${genre}'>${genres[genre]}</a></li>`;
   }
-  $content.innerHTML = `<h1>genre: </h1><ul class='genreList'>${genreList}</ul>`;
+  $content.innerHTML = `<div class='discoverPage'><h1>genre: </h1><ul class='genreList'>${genreList}</ul></div>`;
 }
 
 function router() {
