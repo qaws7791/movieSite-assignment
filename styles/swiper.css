@@ -45,7 +45,14 @@
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #00000091;
+  background-color: #00000040;
+}
+
+@media (max-width: 600px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
 }
 
 .swiper-button-next {

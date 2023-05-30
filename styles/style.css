@@ -221,8 +221,18 @@ body {
              0px 18px 23px rgba(0,0,0,0.1);
 }
 
-.section {
+.movieSection {
+  padding: 0 50px;
+  position: relative;
 }
+
+@media (max-width:600px) {
+  .movieSection{
+    padding: 0;
+  }
+}
+
+
 .section__title {
   margin: 2rem 0;
 }

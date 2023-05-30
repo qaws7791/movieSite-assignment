@@ -98,14 +98,14 @@ export function createMovieSlidersElement(movies, index) {
     .join("");
 
   return `
-  <section class="section">
+  <section class="movieSection">
     <div class="swiper movieSwiper-${index}">
       <div class="swiper-wrapper">
       ${slides}
       </div>
-      <div class="swiper-button-next movieSwiper-button-next-${index}"></div>
-      <div class="swiper-button-prev movieSwiper-button-prev-${index}"></div>
     </div>
+    <div class="swiper-button-next movieSwiper-button-next-${index}"></div>
+      <div class="swiper-button-prev movieSwiper-button-prev-${index}"></div>
   </section>
   `;
 }
