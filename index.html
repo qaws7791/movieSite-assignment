@@ -57,14 +57,23 @@
               </a>
             </div>
             <div class="searchBar hide">
-              <div>
-                <input type="text" name="inputSearch" id="inputSearch" />
-                <button onclick="handleSearchSubmit()">Search</button>
-              </div>
-
               <button class="iconButton searchCloseButton">
                 <i class="fa-solid fa-xmark" style="color: #dedede"></i>
               </button>
+              <div>
+                <input
+                  type="text"
+                  name="inputSearch"
+                  id="inputSearch"
+                  class="input"
+                />
+                <button
+                  onclick="handleSearchSubmit()"
+                  class="searchSubmitButton"
+                >
+                  Search
+                </button>
+              </div>
             </div>
             <button class="iconButton searchOpenButton">
               <i
@@ -90,11 +99,16 @@
       $searchBar = document.querySelector(".searchBar");
 
       window.addEventListener("resize", onResizeWindow);
+      document.addEventListener("DOMContentLoaded", onDOMLoad);
       $navOpenButtons.addEventListener("click", openNav);
       $navCloseButtons.addEventListener("click", closeNav);
       $searchOpenButton.addEventListener("click", openSearchBar);
       $searchCloseButton.addEventListener("click", closeSearchBar);
       $inputSearch.addEventListener("keyup", submitDetectEnter);
+
+      function onDOMLoad() {
+        $inputSearch.focus();
+      }
 
       function onResizeWindow() {
         if (window.innerWidth <= 600) {
@@ -130,6 +144,7 @@
       function submitDetectEnter(e) {
         if (e.keyCode === 13) handleSearchSubmit();
       }
+      onResizeWindow();
     </script>
     <script src="./scripts/app.js" type="module"></script>
   </body>

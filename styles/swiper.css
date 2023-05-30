@@ -27,12 +27,8 @@
   object-fit: cover;
 }
 
-.swiper-slide.poster-slide {
+.swiper-slide.posterSlide {
   aspect-ratio: 2/3;
-}
-.swiper a {
-  width: 100%;
-  height: 100%;
 }
 
 .swiper-button-next, .swiper-button-prev {
