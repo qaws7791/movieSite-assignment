@@ -1,9 +1,9 @@
-import env from "./env.json" assert { type: "json" };
+import { ACCESS_TOKEN } from "./env.js";
 const ApiOptions = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${env.accessToken}`,
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
   },
 };
 

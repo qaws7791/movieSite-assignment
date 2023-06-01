@@ -12,20 +12,16 @@ import {
   createPosterCardElement,
 } from "./create.js";
 import { DateStringToKrString, changeDocumentTitle } from "./utils.js";
-
-import jsonData from "./genre.json" assert { type: "json" };
+import { MOVIE_GENRES } from "./genre.js";
 const $content = document.querySelector("#content");
-const genres = {};
-jsonData.genres.forEach(({ id, name }) => (genres[id] = name));
-
 //////////////////////////////////////////////////////////////////
-
 //homePage: 인기영화 + 장르별 영화 페이지
 async function homePage() {
   const movies = await fetchPopularMovies();
   const promises = [];
-  for (const key in genres) {
+  for (const key of Object.keys(MOVIE_GENRES)) {
     promises.push(fetchGenreMovies(key));
+    console.log(key);
   }
   const results = await Promise.all(promises);
   const sliders = results.map((genreMovies, i) => {
@@ -39,7 +35,7 @@ async function homePage() {
           ${createBannerSliderElement(movies)}
           <div></div>
     </div>
-        ${Object.values(genres)
+        ${Object.values(MOVIE_GENRES)
           .map(
             (genre, i) =>
               `<h2 class='movieSection__title'>${genre} 영화</h2>` + sliders[i]
@@ -166,10 +162,10 @@ async function genrePage(genre) {
       .insertAdjacentHTML("beforeend", moreMoviesElements);
     return moreMovies.length;
   }
-  changeDocumentTitle(genres[genre] + " 영화");
+  changeDocumentTitle(MOVIE_GENRES[genre] + " 영화");
   $content.innerHTML = `
   <div class='genrePage'>
-    <h2 class='genrePage__title'>장르: ${genres[genre]}</h2>
+    <h2 class='genrePage__title'>장르: ${MOVIE_GENRES[genre]}</h2>
     <div><ul class='movieList'>${moviesElements}</ul></div>
   </div>
   `;
@@ -199,8 +195,8 @@ async function genrePage(genre) {
 //discoverPage: 장르 선택 페이지
 async function discoverPage() {
   let genreList = "";
-  for (const genre in genres) {
-    genreList += `<li ><a class='genreList__item' href='#/genre/${genre}'>${genres[genre]}</a></li>`;
+  for (const key of Object.keys(MOVIE_GENRES)) {
+    genreList += `<li ><a class='genreList__item' href='#/genre/${key}'>${MOVIE_GENRES[key]}</a></li>`;
   }
   $content.innerHTML = `<div class='discoverPage'><h2 class='discoverPage__title'>장르를 선택하세요</h2><ul class='genreList'>${genreList}</ul></div>`;
 }
@@ -219,7 +215,7 @@ function router() {
     const genre = path.substr(8);
     if (!genre) {
     }
-    if (genres.hasOwnProperty(genre)) {
+    if (MOVIE_GENRES.hasOwnProperty(genre)) {
       genrePage(genre);
     } else {
       notFoundPage();
