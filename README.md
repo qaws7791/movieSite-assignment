@@ -1,5 +1,7 @@
 # 1. install
 
+
+
 /scripts/env.json 생성 후 
 
 TMDB Access Token 작성
@@ -11,7 +13,9 @@ TMDB Access Token 작성
 }
 ```
 
+❗ 해당 프로젝트는 env.json과 genre.json 파일을 각각 fetch.js와 app.js에서 Import assertions하여 사용하고 있습니다. Firefox나 Opera같은 브라우저에서는 정상 작동되지 않을 수 있습니다. 
 
+**Import assertions** 호환성 여부: https://caniuse.com/mdn-javascript_statements_import_import_assertions
 
 ## 2.필수 요구사항
 
