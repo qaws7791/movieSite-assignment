@@ -38,7 +38,7 @@ TMDB Access Token 작성
       1. createElement
       2. getElementById 등
 
-## 2. 선택 요구사항
+## 3. 선택 요구사항
 
 1. css: flex와 grid 사용하기
 
