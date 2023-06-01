@@ -3,6 +3,10 @@ export function generateBannerSwiper() {
     slidesPerView: 1,
     centeredSlides: false,
     spaceBetween: 30,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+    },
     navigation: {
       nextEl: ".bannerSwiper-button-next",
       prevEl: ".bannerSwiper-button-prev",

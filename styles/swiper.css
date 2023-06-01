@@ -78,3 +78,8 @@
 .bannerSwiper .swiper-slide-active .bannerCard__title {
   display: block;
 }
+
+.bannerSwiper-button-next,
+.bannerSwiper-button-prev {
+  width: 70px;
+}
