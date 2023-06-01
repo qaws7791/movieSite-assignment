@@ -1,5 +1,16 @@
 # 1. install
 
+/scripts/env.json 생성 후 
+
+TMDB Access Token 작성
+
+```json
+/scripts/env.json
+{
+  "accessToken": "<TMDB accessToken>"
+}
+```
+
 
 
 ## 2.필수 요구사항
