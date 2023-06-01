@@ -51,7 +51,7 @@ export function generateMovieSwiper(i) {
     spaceBetween: 20,
     navigation: {
       nextEl: `.movieSwiper-button-next-${i}`,
-      prevEl: `.movieSwiper-button-next-${i}`,
+      prevEl: `.movieSwiper-button-prev-${i}`,
     },
     loop: true,
     breakpoints: {

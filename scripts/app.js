@@ -11,6 +11,7 @@ import {
   createMovieSlidersElement,
   createPosterCardElement,
 } from "./create.js";
+import { DateStringToKrString, changeDocumentTitle } from "./utils.js";
 
 import jsonData from "./genre.json" assert { type: "json" };
 const $content = document.querySelector("#content");
@@ -19,6 +20,7 @@ jsonData.genres.forEach(({ id, name }) => (genres[id] = name));
 
 //////////////////////////////////////////////////////////////////
 
+//homePage: 인기영화 + 장르별 영화 페이지
 async function homePage() {
   const movies = await fetchPopularMovies();
   const promises = [];
@@ -29,17 +31,18 @@ async function homePage() {
   const sliders = results.map((genreMovies, i) => {
     return createMovieSlidersElement(genreMovies, i);
   });
-
+  changeDocumentTitle();
   $content.innerHTML = `
   <div class='homePage'>
-    <h2 class='section__title'>인기있는 영화들</h2>
+    <h2 class='homePage__title'>인기있는 영화</h2>
     <div class="banner">
           ${createBannerSliderElement(movies)}
           <div></div>
     </div>
         ${Object.values(genres)
           .map(
-            (x, i) => `<h2 class='section__title'>${x} 영화</h2>` + sliders[i]
+            (genre, i) =>
+              `<h2 class='movieSection__title'>${genre} 영화</h2>` + sliders[i]
           )
           .join("")}
   </div>
@@ -48,11 +51,21 @@ async function homePage() {
   const swipers = results.map((x, i) => generateMovieSwiper(i));
 }
 
+//movieDetailPage: 단일 영화 자세히 보기 페이지
 async function movieDetailPage(id) {
   const movieDetail = await fetchMovieDetail(id);
-  const { title, backdrop_path, overview, poster_path, vote_average } =
-    movieDetail;
+  const {
+    title,
+    original_title,
+    backdrop_path,
+    overview,
+    poster_path,
+    vote_average,
+    release_date,
+  } = movieDetail;
   const rating = Number.parseInt(Number(vote_average) * 10);
+  const release_KrDate = DateStringToKrString(release_date);
+  changeDocumentTitle(title);
   $content.innerHTML = `
   <div class='movieDetailPage'>
     <div class='movieDetail'>
@@ -63,8 +76,13 @@ async function movieDetailPage(id) {
       <div class='movieDetail__content'>
       <img class='movieDetail__poster' src='https://image.tmdb.org/t/p/original${poster_path}' alt='${title}'/>
       <h1 class='movieDetail__title'>${title}</h1>
-      
-      <p class='movieDetail__vote'><i class="fa-regular fa-thumbs-up"></i> ${rating}%</p>
+      ${
+        title !== original_title
+          ? `<h2 class='movieDetail__originalTitle'>(${original_title})</h2>`
+          : ""
+      }
+      <p class='movieDetail__rating'><i class="fa-regular fa-thumbs-up"></i> ${rating}%</p>
+      <p class='movieDetail__date'>개봉일: ${release_KrDate}</p>
       <p class='movieDetail__overview'>${overview}</p>
       </div>
     </div>
@@ -73,6 +91,7 @@ async function movieDetailPage(id) {
   `;
 }
 
+//searchPage: 검색결과 페이지
 async function searchPage(query) {
   let pageIndex = 1;
   const movies = await fetchSearchMovies(query);
@@ -93,10 +112,10 @@ async function searchPage(query) {
     }
     return moreMovies.length;
   }
-
+  changeDocumentTitle("검색: " + decodeURI(query));
   $content.innerHTML = `
   <div class='searchPage'>
-    <h1>Search: ${decodeURI(query)}</h1>
+    <h2 class='searchPage__title'>검색어: ${decodeURI(query)}</h2>
     <div><ul class='movieList'>${moviesElements}</ul></div>
   </div>
   `;
@@ -124,9 +143,11 @@ async function searchPage(query) {
 }
 
 function notFoundPage() {
-  $content.innerHTML = `<div class='notFoundPage'><h1>NotFound</h1></div>`;
+  changeDocumentTitle();
+  $content.innerHTML = `<div class='notFoundPage'><h2>NotFound</h2></div>`;
 }
 
+//genrePage: 해당 장르 페이지
 async function genrePage(genre) {
   let pageIndex = 1;
   const movies = await fetchGenreMovies(genre);
@@ -147,10 +168,10 @@ async function genrePage(genre) {
     }
     return moreMovies.length;
   }
-
+  changeDocumentTitle(genres[genre] + " 영화");
   $content.innerHTML = `
   <div class='genrePage'>
-    <h1>genre: ${genres[genre]}</h1>
+    <h2 class='genrePage__title'>장르: ${genres[genre]}</h2>
     <div><ul class='movieList'>${moviesElements}</ul></div>
   </div>
   `;
@@ -177,12 +198,13 @@ async function genrePage(genre) {
   observer.observe(document.querySelector(".movieList").lastChild);
 }
 
+//discoverPage: 장르 선택 페이지
 async function discoverPage() {
   let genreList = "";
   for (const genre in genres) {
     genreList += `<li ><a class='genreList__item' href='#/genre/${genre}'>${genres[genre]}</a></li>`;
   }
-  $content.innerHTML = `<div class='discoverPage'><h1>genre: </h1><ul class='genreList'>${genreList}</ul></div>`;
+  $content.innerHTML = `<div class='discoverPage'><h2 class='discoverPage__title'>장르를 선택하세요</h2><ul class='genreList'>${genreList}</ul></div>`;
 }
 
 function router() {

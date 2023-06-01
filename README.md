@@ -48,4 +48,13 @@ TMDB Access Token 작성
 
 4. enter 키 입력으로 검색버튼 클릭과 동일한 액션 구현 `e.keyCode === 13`
 
-   
+
+
+
+------
+
+This favicon was generated using the following graphics from Twitter Twemoji:
+- Graphics Title: 1f39e.svg
+- Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f39e.svg
+- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)

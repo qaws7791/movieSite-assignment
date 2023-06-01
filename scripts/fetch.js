@@ -7,9 +7,9 @@ const ApiOptions = {
   },
 };
 
-export async function fetchPopularMovies() {
+export async function fetchPopularMovies(page = 1) {
   const res = await fetch(
-    "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
+    `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
     ApiOptions
   );
   const { results } = await res.json();
@@ -22,6 +22,7 @@ export async function fetchMovieDetail(id) {
     ApiOptions
   );
   const json = await res.json();
+  console.log(json);
   return json;
 }
 
