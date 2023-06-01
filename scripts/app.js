@@ -106,10 +106,9 @@ async function searchPage(query) {
       .map((movie) => `<li>${createPosterCardElement(movie)}</li>`)
       .join("");
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = moreMoviesElements;
-    while (tempDiv.firstChild) {
-      document.querySelector(".movieList").appendChild(tempDiv.firstChild);
-    }
+    document
+      .querySelector(".movieList")
+      .insertAdjacentHTML("beforeend", moreMoviesElements);
     return moreMovies.length;
   }
   changeDocumentTitle("검색: " + decodeURI(query));
@@ -162,10 +161,9 @@ async function genrePage(genre) {
       .map((movie) => `<li>${createPosterCardElement(movie)}</li>`)
       .join("");
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = moreMoviesElements;
-    while (tempDiv.firstChild) {
-      document.querySelector(".movieList").appendChild(tempDiv.firstChild);
-    }
+    document
+      .querySelector(".movieList")
+      .insertAdjacentHTML("beforeend", moreMoviesElements);
     return moreMovies.length;
   }
   changeDocumentTitle(genres[genre] + " 영화");
